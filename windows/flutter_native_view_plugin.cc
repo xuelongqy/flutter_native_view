@@ -81,6 +81,7 @@ void FlutterNativeViewPlugin::HandleMethodCall(
                   ->WindowProc(hwnd, message, wparam, lparam);
             }));
   }
+  flutternativeview::NativeViewContainer::GetInstance()->SetFullScreen(true);
   result->Success(flutter::EncodableValue(nullptr));
 }
 
