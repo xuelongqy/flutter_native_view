@@ -3,7 +3,6 @@
 // Copyright (c) 2022, Hitesh Kumar Saini <saini123hitesh@gmail.com>.
 // All rights reserved.
 // Use of this source code is governed by MIT license that can be found in the LICENSE file.
-import 'dart:ui';
 import 'dart:async';
 import 'package:flutter/widgets.dart';
 
@@ -43,6 +42,7 @@ class NativeViewController {
   final int handle;
   final GlobalKey rendererKey = GlobalKey();
   final GlobalKey painterKey = GlobalKey();
+  final BuildContext context;
 
   /// [StreamController] to avoid race & send [Rect]s synchronously.
   final StreamController<void> resizeNativeViewStreamController =
@@ -54,6 +54,7 @@ class NativeViewController {
 
   NativeViewController({
     required this.handle,
+    required this.context,
     this.hitTestBehavior = HitTestBehavior.opaque,
   }) {
     resizeNativeViewStreamSubscription =
@@ -72,6 +73,7 @@ class NativeViewController {
 
   /// Creates a new [NativeView].
   void createNativeView() {
+    final window = View.of(context);
     FFI.nativeViewCoreCreateNativeView(
       handle,
       (painterKey.rect!.left * window.devicePixelRatio).toInt(),
@@ -95,6 +97,7 @@ class NativeViewController {
   /// TODO: Fix [force] argument.
   ///
   void refresh({bool force = true}) {
+    final window = View.of(context);
     FFI.nativeViewCoreResizeNativeView(
       handle,
       (painterKey.rect!.left * window.devicePixelRatio).toInt(),

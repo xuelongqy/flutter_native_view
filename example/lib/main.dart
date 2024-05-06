@@ -20,22 +20,30 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final controller = ScrollController();
-  final controllers = [
-    NativeViewController(
-      handle: FindWindow(
-        nullptr,
-        'VLC Media Player'.toNativeUtf16(),
+  late List<NativeViewController> controllers;
+
+  @override
+  void initState() {
+    super.initState();
+    controllers = [
+      NativeViewController(
+        context: context,
+        handle: FindWindow(
+          nullptr,
+          'VLC Media Player'.toNativeUtf16(),
+        ),
+        hitTestBehavior: HitTestBehavior.translucent,
       ),
-      hitTestBehavior: HitTestBehavior.translucent,
-    ),
-    NativeViewController(
-      handle: FindWindow(
-        nullptr,
-        'This PC'.toNativeUtf16(),
+      NativeViewController(
+        context: context,
+        handle: FindWindow(
+          nullptr,
+          'This PC'.toNativeUtf16(),
+        ),
+        hitTestBehavior: HitTestBehavior.translucent,
       ),
-      hitTestBehavior: HitTestBehavior.translucent,
-    ),
-  ];
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
